@@ -11,19 +11,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        /* BASE & THEME */
+        /* BASE & THEME - KEMBALI KE DARK MODE */
         :root {
-            --bg-dark: #000000;
-            --text-light: #e5e7eb;
+            --bg-dark: #000000; /* Hitam */
+            --text-light: #e5e7eb; /* Teks Utama Terang */
             --primary-neon: #F7668F; /* Pink Neon */
             --secondary-neon: #C084FC; /* Lilac Neon */
-            --card-bg: #111827;
+            --card-bg: #111827; /* Latar Belakang Kartu Gelap */
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark); 
-            color: var(--text-light);
+            color: var(--text-light); 
             line-height: 1.6;
             padding: 1rem; 
             max-width: 32rem; 
@@ -32,22 +32,33 @@
             min-height: 100vh; 
         }
 
-        /* NEON TEXT EFFECT FOR RBF */
+        /* NEON TEXT EFFECT FOR RBF - KEMBALI KE GLOW */
         .neon-rbf {
-            font-size: 3.5rem; /* Lebih kecil dari sebelumnya, lebih rapi */
+            font-size: 3.5rem; 
             line-height: 1;
             color: var(--primary-neon);
+            /* Glow asli */
             text-shadow: 0 0 10px var(--primary-neon), 0 0 20px rgba(247, 102, 143, 0.8);
             margin-bottom: 0.5rem;
             font-weight: 900;
         }
+
+        /* CLOCK STYLE - KEMBALI KE GLOW */
+        .neon-clock-text {
+            font-weight: 700;
+            color: var(--secondary-neon);
+            /* Glow asli */
+            text-shadow: 0 0 8px rgba(192, 132, 252, 0.8);
+            transition: all 0.5s;
+        }
+
         
         /* GENERAL CARD STYLE WITH GLOW */
         .glow-card {
             background-color: var(--card-bg);
             border-radius: 18px;
             padding: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem; /* DIKONTROL DENGAN MARGIN-TOP */
             position: relative;
             z-index: 1;
             transition: all 0.3s;
@@ -67,7 +78,7 @@
 
         /* BUTTON STYLING (NEON LINK) */
         .neon-link-btn {
-            background: linear-gradient(135deg, #111827, #1f2937);
+            background: linear-gradient(135deg, #111827, #1f2937); /* Latar belakang gelap untuk kontras */
             color: var(--text-light);
             font-weight: 700;
             padding: 1rem 1.5rem;
@@ -98,11 +109,11 @@
             transition: all 0.3s;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
         }
-        .badge-pink { background: var(--primary-neon); color: var(--card-bg); }
-        .badge-lilac { background: var(--secondary-neon); color: var(--card-bg); }
+        .badge-pink { background: var(--primary-neon); color: var(--card-bg); } /* Teks Gelap di latar Pink */
+        .badge-lilac { background: var(--secondary-neon); color: var(--card-bg); } /* Teks Gelap di latar Lilac */
         .vibe-badge-genz:hover { opacity: 0.9; transform: scale(1.05); }
 
-        /* MARQUEE STYLES DIBALIKKAN KE NORMAL */
+        /* MARQUEE STYLES - KEMBALI KE DARK MODE */
         @keyframes marquee {
             0%   { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
@@ -112,24 +123,29 @@
             overflow: hidden;
             width: 100%;
             height: 30px; 
-            background-color: #1a0a1f; 
+            background-color: #1a0a1f; /* Latar belakang gelap */
             border-top: 1px solid #1f0f29;
             border-bottom: 1px solid #1f0f29;
-            /* Margin atas dan bawah dipertahankan minimal */
-            margin: 0 0 1rem 0; 
+            margin: 0; /* Pastikan margin nol agar menempel ke Clock */
         }
 
         .marquee-content {
             display: inline-block;
             white-space: nowrap;
             padding-left: 100%; 
-            /* Kecepatan normal (linear) dengan durasi 15s (lebih lambat dari default) */
             animation: marquee 15s linear infinite; 
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--secondary-neon);
             line-height: 30px;
             text-shadow: 0 0 5px rgba(192, 132, 252, 0.5);
+        }
+        
+        /* NEW SPOTIFY CONTAINER STYLE */
+        .spotify-container {
+            border-color: var(--primary-neon);
+            background-color: var(--secondary-neon); /* LILAC BACKGROUND */
+            box-shadow: 0 0 30px rgba(192, 132, 252, 0.5); /* Lilac Glow */
         }
 
     </style>
@@ -139,24 +155,42 @@
     <div id="app-container" class="p-4 w-full max-w-lg mx-auto pb-16 min-h-screen">
         
         <!-- HEADER: NEON RBF & BIO -->
-        <div class="text-center pt-10 pb-6">
+        <!-- pt-8 agar sedikit lebih rendah, mb-4 agar lebih dekat ke AI label -->
+        <div class="text-center pt-8 mb-4">
             <h1 class="neon-rbf mx-auto">RBF</h1>
-            <p class="text-lg text-gray-400 font-medium mb-10">
+            <p class="text-lg text-gray-400 font-medium italic -mt-2 mb-6"> 
                 Razka Bintang Firdaus | 05' | ENFP
             </p>
         </div>
 
         <!-- AI LABEL (Diapit di antara header dan marquee tanpa jarak) -->
-        <!-- mb-0 untuk menghapus margin bawah sepenuhnya -->
-        <div class="text-center mb-0">
-            <span class="inline-block px-4 py-2 text-sm font-bold rounded-full bg-secondary-neon text-black tracking-wider shadow-lg">
+        <div class="text-center mb-2"> <!-- Jarak sedikit di bawah label AI -->
+            <span class="inline-block px-4 py-2 text-sm font-bold rounded-full bg-primary-neon text-black tracking-wider shadow-lg">
                 AI
             </span>
         </div>
+
+        <!-- REAL-TIME CLOCKS SECTION -->
+        <div id="real-time-clocks" class="text-center py-3 bg-gray-900/50 backdrop-blur-sm border-y border-gray-800/50"> <!-- py-3 lebih kecil -->
+            <div class="flex justify-around items-center text-sm font-light">
+                <!-- WIB Clock -->
+                <div class="px-2">
+                    <p class="text-gray-400">🇮🇩 WIB (UTC+7)</p>
+                    <span id="wib-time" class="text-xl neon-clock-text">--:--:--</span>
+                </div>
+                <!-- Separator -->
+                <div class="h-8 w-px bg-gray-700"></div>
+                <!-- KST Clock -->
+                <div class="px-2">
+                    <p class="text-gray-400">🇰🇷 KST (UTC+9)</p>
+                    <span id="kst-time" class="text-xl neon-clock-text">--:--:--</span>
+                </div>
+            </div>
+        </div>
+        <!-- END REAL-TIME CLOCKS -->
         
         <!-- TEKS BERJALAN / MARQUEE BARU -->
-        <!-- marquee-container tidak memiliki margin atas sehingga menempel ke label AI -->
-        <div class="marquee-container">
+        <div class="marquee-container mb-6"> <!-- Jarak di bawah marquee diatur di sini -->
             <div class="marquee-content">
                 &nbsp;&nbsp;&nbsp;Halo, Aku Razka / 안녕하세요, 저는 라즈카입니다
             </div>
@@ -164,13 +198,13 @@
         <!-- END MARQUEE -->
 
         <!-- SPOTIFY WIDGET (FULL EMBED) -->
-        <section class="mb-10 p-0">
+        <section class="mb-8"> <!-- Spasi di bawah Spotify konsisten mb-8 -->
             <h2 class="text-xl font-bold mb-3 text-primary-neon text-center">
                 🎧 CURRENTLY LISTENING 🎧
             </h2>
-            <div class="rounded-xl overflow-hidden shadow-2xl border-2 border-primary-neon">
+            <div class="rounded-xl overflow-hidden shadow-2xl border-2 spotify-container">
                 <iframe 
-                    src="https://open.spotify.com/embed/track/54mnwt3kO0uYsy0ceg14JP?utm_source=generator&theme=0" 
+                    src="https://open.spotify.com/embed/track/54mnwt3kO0uYsy0ceg14JP?utm_source=generator&theme=1" 
                     width="100%" 
                     height="152" 
                     frameborder="0" 
@@ -263,6 +297,48 @@
         window.hideCustomAlert = () => {
             document.getElementById('custom-alert-modal').classList.add('hidden');
         };
+
+        // --- REAL-TIME CLOCK LOGIC (WIB & KST) ---
+        const wibTimeElement = document.getElementById('wib-time');
+        const kstTimeElement = document.getElementById('kst-time');
+        
+        // Options untuk format waktu
+        const timeOptions = { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit',
+            hour12: false // Menggunakan format 24 jam
+        };
+
+        function updateClocks() {
+            const now = new Date();
+
+            try {
+                // 1. WIB (Waktu Indonesia Barat: Asia/Jakarta) - UTC+7
+                const wibTime = now.toLocaleTimeString('id-ID', {
+                    ...timeOptions,
+                    timeZone: 'Asia/Jakarta'
+                });
+                wibTimeElement.textContent = wibTime;
+
+                // 2. KST (Korea Standar Time: Asia/Seoul) - UTC+9
+                const kstTime = now.toLocaleTimeString('ko-KR', { // Menggunakan locale Korea
+                    ...timeOptions,
+                    timeZone: 'Asia/Seoul'
+                });
+                kstTimeElement.textContent = kstTime;
+
+            } catch (error) {
+                // Fallback sederhana jika browser tidak mendukung Intl.DateTimeFormat
+                console.error("Error updating clocks:", error);
+                wibTimeElement.textContent = 'ERROR';
+                kstTimeElement.textContent = 'ERROR';
+            }
+        }
+
+        // Jalankan fungsi saat startup dan setiap detik (1000ms)
+        updateClocks();
+        setInterval(updateClocks, 1000);
     </script>
 </body>
 </html>
