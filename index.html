@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Razka Bintang Firdaus</title>
-    <!-- Tailwind CSS CDN untuk styling keren -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     
     <style>
@@ -39,7 +37,6 @@
 </head>
 <body id="app-body">
 
-    <!-- Konten Utama Aplikasi (Akan diisi oleh JS setelah loading) -->
     <div id="app-container" class="p-4 w-full max-w-md mx-auto pb-16 min-h-screen">
         <div class="flex justify-center items-center min-h-screen">
             <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-t-4 border-primary-pink"></div>
@@ -47,12 +44,9 @@
         </div>
     </div>
 
-    <!-- Modals (Disembunyikan secara default) -->
     <div id="edit-modal-container" class="hidden"></div>
-    <!-- Container untuk Modal Gambar yang Dinamis (Profil, K-Pop, MotoGP, Football) -->
     <div id="image-modal-container" class="hidden"></div>
 
-    <!-- FIREBASE SCRIPTS -->
     <script type="module">
         // Import modul Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -67,7 +61,9 @@
         // --- KONSTANTA & DEFAULT DATA ---
         const defaultProfile = {
             name: 'Razka Bintang Firdaus',
-            bio: 'AI Addict | 05\' | ENFP 
+            // FIX: Menggunakan petik ganda untuk menghindari error sintaks pada petik tunggal '
+            // FIX: Menambahkan koma (,) setelah bio
+            bio: "AI Addict | 05' | ENFP", 
             profilePicUrl: 'https://photos.app.goo.gl/fGhDbXoebjaf9drL7', // Foto utama
             spotifyUrl: 'https://open.spotify.com/track/54mnwt3kO0uYsy0ceg14JP?si=WlJNWu66RE2H9dIctnOnfw',
             vibes: {
@@ -119,6 +115,7 @@
 
         const getSpotifyEmbedUrl = (trackUrl) => {
             const trackId = getSpotifyTrackId(trackUrl);
+            // FIX: Mengubah URL embed Spotify menjadi yang benar (Spotify Embed URL)
             return trackId ? `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0` : '';
         };
 
@@ -126,6 +123,7 @@
         const initializeAppAndAuth = async () => {
             if (!firebaseConfig) {
                 console.warn("Firebase config tidak ditemukan. Menggunakan data default.");
+                // Jika config tidak ada, langsung render dengan data default
                 renderApp(defaultProfile);
                 return;
             }
@@ -149,19 +147,20 @@
             } catch (e) {
                 console.error("Firebase Initialization or Auth Error:", e);
                 userId = auth?.currentUser?.uid || crypto.randomUUID();
-                document.getElementById('app-container').innerHTML = `
-                    <div class="text-center p-8 bg-card-dark rounded-xl text-primary-pink border border-primary-pink shadow-pink-glow mt-20">
-                        <p class="font-bold text-xl mb-2">⚠️ Error Otentikasi!</p>
-                        <p class="text-sm">Gagal masuk ke Firebase, tetapi aplikasi berjalan dengan data terakhir/default.</p>
-                    </div>
-                `;
+                // FIX: Menghapus error box karena ini mengganggu UI
+                // Jika ada error Firebase, kita tetap coba listen/render dengan data default
+                
                 listenToPublicProfile();
             }
         };
         
         // --- FIREBASE LISTEN (READ) ---
         const listenToPublicProfile = () => {
-            if (!db) return;
+            if (!db) {
+                // Jika DB gagal inisialisasi, pastikan kita merender minimal dengan data default
+                renderApp(defaultProfile, "Database tidak siap. Menampilkan data default.");
+                return;
+            }
 
             const profileDocRef = doc(db, PUBLIC_PATH);
             
@@ -231,11 +230,12 @@
             const container = document.getElementById('app-container');
             const spotifyEmbedUrl = getSpotifyEmbedUrl(profile.spotifyUrl);
             
-            // FIX: Menggunakan &quot; untuk JSON string di dalam atribut onclick
+            // FIX: Menggunakan fungsi untuk memastikan JSON string di dalam atribut onclick
             const jsonEscape = (data) => JSON.stringify(data).replace(/"/g, '&quot;');
 
             // Handler untuk Modal Gambar
             const profileClick = `showImageModal('Foto Profil Utama', '${profile.profilePicUrl}')`;
+            // FIX: Menggunakan jsonEscape untuk array objek
             const kpopClick = `showImageModal('K-Pop Squad', '${jsonEscape(kpopImages)}')`;
             const motogpClick = `showImageModal('Rider Favorit', '${jsonEscape(motogpImages)}')`;
             const footballClick = `showImageModal('Team Bola', '${jsonEscape(footballImages)}')`;
@@ -243,7 +243,7 @@
 
             const editButton = userId ? `
                 <button 
-                    onclick="showEditModal(${jsonEscape(profile).replace(/&quot;/g, '"')})"
+                    onclick="showEditModal('${jsonEscape(profile)}')"
                     class="absolute top-0 right-0 p-2 bg-card-dark text-primary-pink rounded-full border border-primary-pink/50 hover:bg-primary-pink hover:text-bg-dark transition shadow-lg"
                     title="Edit Profil"
                 >
@@ -282,7 +282,6 @@
                     User ID (Hanya untuk editing): <span class="text-secondary-lilac font-mono break-all">${userId || 'N/A'}</span>
                 </p>
 
-                <!-- HEADER DAN AVATAR -->
                 <div class="text-center my-6 relative">
                     ${editButton}
 
@@ -302,10 +301,8 @@
                 
                 <div class="h-0.5 bg-gradient-to-r from-primary-pink to-secondary-lilac rounded-full my-8"></div>
 
-                <!-- SECTION: CURRENT SONG (SPOTIFY) -->
                 ${spotifySection}
 
-                <!-- SECTION: VIBES -->
                 <section class="mb-8 bg-card-dark p-5 rounded-2xl shadow-2xl border-2 border-primary-pink/50 shadow-pink-glow/30">
                     <h2 class="text-2xl font-extrabold mb-4 text-primary-pink text-center tracking-wider">
                         ✨ V I B E S   C H E C K ✨
@@ -322,7 +319,6 @@
                 
                 <div class="h-0.5 bg-gradient-to-r from-secondary-lilac to-primary-pink rounded-full my-8"></div>
 
-                <!-- SECTION LINKS UTAMA -->
                 <section class="space-y-4 mb-8">
                     
                     ${renderPrimaryButton("IG Utama (@razkabf)", "window.open('https://www.instagram.com/razkabf', '_blank')", "border-primary-pink text-primary-pink", "hover:bg-primary-pink", "shadow-pink-glow/50")}
@@ -343,11 +339,9 @@
             container.classList.remove('hidden');
 
             let images = [];
-            // FIX: Cek jika data mengandung &quot;, artinya itu JSON string
+            // FIX: Menggunakan &quot; untuk parsing data dari HTML attribute
             if (imagesData.includes('&quot;')) {
-                // Asumsi input adalah stringified JSON array yang mengandung &quot;
                 try {
-                    // Konversi HTML entity kembali ke double quote sebelum parsing
                     const cleanJson = imagesData.replace(/&quot;/g, '"'); 
                     images = JSON.parse(cleanJson);
                 } catch (e) {
@@ -415,8 +409,17 @@
         
         // --- MODAL EDIT LOGIC ---
 
-        window.showEditModal = (currentProfile) => {
+        window.showEditModal = (profileJsonString) => {
             if (!userId) return; 
+
+            // FIX: Parsing JSON string yang sudah di-escape dari atribut HTML
+            let currentProfile;
+            try {
+                currentProfile = JSON.parse(profileJsonString.replace(/&quot;/g, '"'));
+            } catch(e) {
+                console.error("Error parsing currentProfile:", e);
+                currentProfile = defaultProfile; // Gunakan default jika gagal parse
+            }
             
             const container = document.getElementById('edit-modal-container');
             container.classList.remove('hidden');
@@ -450,87 +453,4 @@
                 const updatedProfile = {
                     name: formData.name,
                     bio: formData.bio,
-                    profilePicUrl: formData.profilePicUrl, 
-                    spotifyUrl: formData.spotifyUrl,
-                    vibes: newVibes
-                };
-                
-                await window.saveProfile(updatedProfile);
-                hideEditModal();
-            };
-
-            const renderInputField = (label, name, value, placeholder, type = 'text', hint = '') => `
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-secondary-lilac mb-1">${label}</label>
-                    <${type === 'textarea' ? 'textarea' : 'input'}
-                        type="${type === 'textarea' ? '' : 'text'}"
-                        name="${name}"
-                        id="input-${name}"
-                        value="${value.replace(/"/g, '&quot;')}"
-                        placeholder="${placeholder}"
-                        rows="${type === 'textarea' ? '2' : ''}"
-                        oninput="handleInputChange(event)"
-                        class="w-full px-3 py-2 bg-dark border border-primary-pink/50 rounded-lg text-gray-100 focus:ring-primary-pink focus:border-primary-pink outline-none ${type === 'textarea' ? 'resize-none' : ''}"
-                    >${type === 'textarea' ? value : ''}</${type === 'textarea' ? 'textarea' : 'input'}>
-                    ${hint ? `<p class="text-xs text-gray-400 mt-1 italic">${hint}</p>` : ''}
-                </div>
-            `;
-            
-            container.innerHTML = `
-                <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-                    <div class="bg-card-dark rounded-xl shadow-2xl p-6 w-full max-w-lg border-2 border-primary-pink/50 max-h-[95vh] overflow-y-auto transform transition duration-300" onclick="event.stopPropagation()">
-                        <h2 class="text-2xl font-bold text-primary-pink mb-4 border-b pb-2 border-secondary-lilac/30">🛠️ Edit Profil (Aman Cuma Kamu yang Bisa)</h2>
-                        
-                        ${renderInputField("Nama Lengkap", "name", formData.name, "Masukkan nama Anda")}
-                        ${renderInputField("Bio Singkat", "bio", formData.bio, "Contoh: AI Addict | 05' | ENFP", "textarea")}
-                        ${renderInputField("URL Foto Profil Utama", "profilePicUrl", formData.profilePicUrl, "https://link-ke-foto-anda.jpg", "text", "Pakai link langsung ke gambar. Foto ini tampil di bagian atas.")}
-
-                        <h3 class="text-lg font-semibold text-secondary-lilac mt-6 mb-3 border-t pt-4 border-gray-700">🎧 VIBES & HOBI</h3>
-                        
-                        ${renderInputField("K-Pop Vibe (List artis favorit)", "kpopVibe", formData.kpopVibe, "Contoh: TWICE, aespa, LE SSERAFIM")}
-                        ${renderInputField("MotoGP Vibe (Rider favorit)", "motogpVibe", formData.motogpVibe, "Contoh: Marc Marquez (MM93)")}
-                        ${renderInputField("Football Vibe (Tim favorit)", "footballVibe", formData.footballVibe, "Contoh: Timnas Indonesia 🇮🇩 & Real Madrid 👑")}
-
-                        <h3 class="text-lg font-semibold text-primary-pink mt-6 mb-3 border-t pt-4 border-gray-700">🎵 SPOTIFY</h3>
-                        ${renderInputField("URL Spotify Track Penuh", "spotifyUrl", formData.spotifyUrl, "https://open.spotify.com/track/...")}
-
-                        <div class="mt-6 flex justify-end space-x-3">
-                            <button
-                                onclick="hideEditModal()"
-                                class="px-4 py-2 bg-gray-600 rounded-lg text-white font-semibold hover:bg-gray-500 transition"
-                            >
-                                Batal
-                            </button>
-                            <button
-                                id="save-button"
-                                onclick="handleSaveClick()"
-                                class="px-4 py-2 rounded-lg font-semibold transition shadow-md bg-secondary-lilac text-bg-dark hover:bg-secondary-lilac/80 hover:shadow-lilac-glow"
-                            >
-                                Simpan Perubahan
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            // Pastikan nilai input diisi ulang
-            document.getElementById('input-name').value = formData.name;
-            document.getElementById('input-bio').value = formData.bio;
-            document.getElementById('input-profilePicUrl').value = formData.profilePicUrl;
-            document.getElementById('input-spotifyUrl').value = formData.spotifyUrl;
-            document.getElementById('input-kpopVibe').value = formData.kpopVibe;
-            document.getElementById('input-motogpVibe').value = formData.motogpVibe;
-            document.getElementById('input-footballVibe').value = formData.footballVibe;
-        };
-
-        window.hideEditModal = () => {
-            document.getElementById('edit-modal-container').classList.add('hidden');
-        };
-
-
-        // Mulai aplikasi saat window sudah siap
-        window.onload = initializeAppAndAuth;
-
-    </script>
-</body>
-</html>
-
+                    profilePicUrl: formData
