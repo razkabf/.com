@@ -3,238 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Razka Bintang Firdaus</title>
+    <title>Razka Bintang Firdaus | Vibe Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (for structure) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        /* Definisi Warna dan Gaya Kustom */
-        /* Menggantikan fungsi Tailwind yang dihapus */
-        .bg-dark { background-color: #111827; }
-        .bg-card-dark { background-color: #1f2937; }
-        .text-primary-pink { color: #F7668F; }
-        .border-primary-pink { border-color: #F7668F; }
-        .shadow-pink-glow { box-shadow: 0 0 15px rgba(247, 102, 143, 0.4); }
-        .text-secondary-lilac { color: #C084FC; }
-        .border-secondary-lilac { border-color: #C084FC; }
-        .shadow-lilac-glow { box-shadow: 0 0 15px rgba(192, 132, 252, 0.4); }
+        /* BASE & THEME */
+        :root {
+            --bg-dark: #000000;
+            --text-light: #e5e7eb;
+            --primary-neon: #F7668F; /* Pink Neon */
+            --secondary-neon: #C084FC; /* Lilac Neon */
+            --card-bg: #111827;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Background Super Gelap */
-            color: #e5e7eb;
+            background-color: var(--bg-dark); 
+            color: var(--text-light);
             line-height: 1.6;
-            /* Tambahkan kelas Tailwind yang sering dipakai secara manual */
-            padding: 1rem; /* p-4 */
-            max-width: 28rem; /* max-w-md */
-            margin-left: auto; /* mx-auto */
-            margin-right: auto; /* mx-auto */
-            padding-bottom: 4rem; /* pb-16 */
-            min-height: 100vh; /* min-h-screen */
-        }
-        
-        /* Tambahan styling untuk memastikan tampilan tetap rapi */
-        .flex-center-screen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 1rem; 
+            max-width: 32rem; 
+            margin: 0 auto; 
+            padding-bottom: 5rem; 
+            min-height: 100vh; 
         }
 
-        /* Styling untuk scrollbar custom (horizontal di mobile) */
-        .vibe-scroll::-webkit-scrollbar {
-            height: 3px;
-        }
-        .vibe-scroll::-webkit-scrollbar-thumb {
-            background-color: #F7668F;
-            border-radius: 2px;
+        /* NEON TEXT EFFECT FOR RBF */
+        .neon-rbf {
+            font-size: 3.5rem; /* Lebih kecil dari sebelumnya, lebih rapi */
+            line-height: 1;
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px rgba(247, 102, 143, 0.8);
+            margin-bottom: 0.5rem;
+            font-weight: 900;
         }
         
-        /* Animasi loading */
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* GENERAL CARD STYLE WITH GLOW */
+        .glow-card {
+            background-color: var(--card-bg);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
         }
-        .animate-spin {
-            animation: spin 1s linear infinite;
+
+        /* VIBE CHECK CARD (Lilac Glow) */
+        .vibe-card {
+            border: 2px solid var(--secondary-neon);
+            box-shadow: 0 0 25px var(--secondary-neon);
         }
+        
+        /* SPOTIFY/LINK CARD (Pink Glow) */
+        .spotify-card, .link-card {
+            border: 2px solid var(--primary-neon);
+            box-shadow: 0 0 20px var(--primary-neon);
+        }
+
+        /* BUTTON STYLING (NEON LINK) */
+        .neon-link-btn {
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: var(--text-light);
+            font-weight: 700;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px var(--primary-neon);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--primary-neon);
+            box-shadow: 0 0 10px var(--primary-neon);
+        }
+        .neon-link-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--secondary-neon);
+            box-shadow: 0 0 15px var(--secondary-neon);
+            text-shadow: 0 0 8px var(--secondary-neon);
+        }
+
+        /* BADGE STYLING */
+        .vibe-badge-genz {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px; 
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        }
+        .badge-pink { background: var(--primary-neon); color: var(--card-bg); }
+        .badge-lilac { background: var(--secondary-neon); color: var(--card-bg); }
+        .vibe-badge-genz:hover { opacity: 0.9; transform: scale(1.05); }
+
+        /* MARQUEE STYLES DIBALIKKAN KE NORMAL */
+        @keyframes marquee {
+            0%   { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            width: 100%;
+            height: 30px; 
+            background-color: #1a0a1f; 
+            border-top: 1px solid #1f0f29;
+            border-bottom: 1px solid #1f0f29;
+            /* Margin atas dan bawah dipertahankan minimal */
+            margin: 0 0 1rem 0; 
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%; 
+            /* Kecepatan normal (linear) dengan durasi 15s (lebih lambat dari default) */
+            animation: marquee 15s linear infinite; 
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--secondary-neon);
+            line-height: 30px;
+            text-shadow: 0 0 5px rgba(192, 132, 252, 0.5);
+        }
+
     </style>
 </head>
-<body id="app-body">
+<body class="bg-dark">
 
-    <div id="app-container" class="p-4 w-full max-w-md mx-auto pb-16 min-h-screen">
-        <div class="flex-center-screen">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-t-4 border-primary-pink"></div>
-            <p class="ml-4 text-secondary-lilac text-lg">Loading Vibe...</p>
+    <div id="app-container" class="p-4 w-full max-w-lg mx-auto pb-16 min-h-screen">
+        
+        <!-- HEADER: NEON RBF & BIO -->
+        <div class="text-center pt-10 pb-6">
+            <h1 class="neon-rbf mx-auto">RBF</h1>
+            <p class="text-lg text-gray-400 font-medium mb-10">
+                Razka Bintang Firdaus | 05' | ENFP
+            </p>
+        </div>
+
+        <!-- AI LABEL (Diapit di antara header dan marquee tanpa jarak) -->
+        <!-- mb-0 untuk menghapus margin bawah sepenuhnya -->
+        <div class="text-center mb-0">
+            <span class="inline-block px-4 py-2 text-sm font-bold rounded-full bg-secondary-neon text-black tracking-wider shadow-lg">
+                AI
+            </span>
+        </div>
+        
+        <!-- TEKS BERJALAN / MARQUEE BARU -->
+        <!-- marquee-container tidak memiliki margin atas sehingga menempel ke label AI -->
+        <div class="marquee-container">
+            <div class="marquee-content">
+                &nbsp;&nbsp;&nbsp;Halo, Aku Razka / 안녕하세요, 저는 라즈카입니다
+            </div>
+        </div>
+        <!-- END MARQUEE -->
+
+        <!-- SPOTIFY WIDGET (FULL EMBED) -->
+        <section class="mb-10 p-0">
+            <h2 class="text-xl font-bold mb-3 text-primary-neon text-center">
+                🎧 CURRENTLY LISTENING 🎧
+            </h2>
+            <div class="rounded-xl overflow-hidden shadow-2xl border-2 border-primary-neon">
+                <iframe 
+                    src="https://open.spotify.com/embed/track/54mnwt3kO0uYsy0ceg14JP?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="152" 
+                    frameborder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                    title="Spotify Embed Player"
+                ></iframe>
+            </div>
+        </section>
+
+        <!-- VIBE CHECK CARD -->
+        <section class="glow-card vibe-card mb-8">
+            <h2 class="text-2xl font-extrabold mb-5 text-secondary-neon flex items-center justify-center">
+                VIBE CHECK [LIVE] ⚡
+            </h2>
+            
+            <div class="flex flex-wrap gap-3 justify-center">
+                <!-- K-POP STAN - DESKRIPSI SUDAH DIUPDATE -->
+                <a href="#" onclick="showCustomAlert('K-Pop Vibe 💖', 'TWICE, aespa, Hearts2Hearts, LE SSERAFIM. The playlist is fully synchronized.')" class="vibe-badge-genz badge-pink">
+                    K-POP
+                </a>
+                
+                <!-- MOTOGP (MM93) -->
+                <a href="#" onclick="showCustomAlert('Rider Vibe 🏍️', 'Marc Marquez MM93 - More Than A Number. Speed and precision.')" class="vibe-badge-genz badge-lilac">
+                    MotoGP
+                </a>
+                
+                <!-- MADRID / INDO -->
+                <a href="#" onclick="showCustomAlert('Football Vibe 👑', '¡Hala Madrid! Hasta La Muerte!')" class="vibe-badge-genz badge-pink">
+                    Football Club
+                </a>
+            </div>
+            
+            <p class="text-sm text-gray-500 mt-5 text-center italic">
+                (Tap the #tags for details)
+            </p>
+        </section>
+
+        <!-- LINK BUTTONS (NEON STYLE) -->
+        <section class="space-y-4 mb-8">
+            <a href="https://www.instagram.com/razkabf" target="_blank" class="neon-link-btn w-full block text-center">
+                IG Utama <span class="text-primary-neon">@razkabf</span>
+            </a>
+            
+            <a href="https://www.instagram.com/byrazka.jpg" target="_blank" class="neon-link-btn w-full block text-center" style="border-color: var(--secondary-neon); box-shadow: 0 0 10px var(--secondary-neon); text-shadow: none;">
+                IG Kedua <span class="text-secondary-neon">@byrazka.jpg</span>
+            </a>
+
+            <!-- KOTAK TIKTOK -->
+            <a href="https://www.tiktok.com/@hiraiyizhuo" target="_blank" class="neon-link-btn w-full block text-center">
+                TikTok <span class="text-primary-neon">@hiraiyizhuo</span>
+            </a>
+
+            <a href="mailto:razkabintangfirdaus@gmail.com" target="_blank" class="neon-link-btn w-full block text-center" style="border-color: var(--secondary-neon); box-shadow: 0 0 10px var(--secondary-neon); text-shadow: none;">
+                Email <span class="text-secondary-neon">razkabintangfirdaus@gmail.com</span>
+            </a>
+        </section>
+        
+        <div class="text-center text-xs text-gray-700 pt-8">
+            generated by razka
+        </div>
+
+    </div>
+
+    <!-- MODAL ALERT KUSTOM (Pengganti alert() - Aesthetic) -->
+    <div id="custom-alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4 backdrop-blur-sm" onclick="hideCustomAlert()">
+        <div class="bg-[#0a0f18] rounded-2xl shadow-2xl p-6 w-full max-w-sm border-2 border-secondary-neon/80 transform scale-100 transition duration-300" onclick="event.stopPropagation()">
+            <h2 id="alert-title" class="text-2xl font-bold text-secondary-neon mb-4 border-b border-gray-700 pb-2"></h2>
+            <p id="alert-message" class="text-gray-300 mb-6"></p>
+            <div class="flex justify-end">
+                <button
+                    onclick="hideCustomAlert()"
+                    class="px-5 py-2 rounded-lg font-semibold transition bg-primary-neon text-[#0a0f18] hover:bg-primary-neon/80 shadow-lg"
+                >
+                    GOT IT
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="edit-modal-container" class="hidden"></div>
-    <div id="image-modal-container" class="hidden"></div>
-
-    <script type="module">
-        // Import modul Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Variabel Global dari Lingkungan Canvas
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'github-link-in-bio';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
-        // --- KONSTANTA & DEFAULT DATA ---
-        const defaultProfile = {
-            name: 'Razka Bintang Firdaus',
-            // SINTAKS SUDAH BENAR
-            bio: "AI Addict | 05' | ENFP", 
-            // GANTI LINK FOTO DENGAN PLACEHOLDER YANG PASTI BEKERJA
-            profilePicUrl: 'https://placehold.co/128x128/f7668f/1f2937?text=RAZKA', 
-            spotifyUrl: 'https://open.spotify.com/track/54mnwt3kO0uYsy0ceg14JP?si=WlJNWu66RE2H9dIctnOnfw',
-            vibes: {
-                kpop: 'TWICE, aespa, Hearts2Hearts, LE SSERAFIM',
-                motogp: 'Marc Marquez MM93 - #MoreThanANumber',
-                football: 'Real Madrid 👑'
-            },
-        };
-
-        // Definisi Kumpulan Foto untuk Setiap Vibe
-        // GANTI SEMUA URL FOTO DENGAN PLACEHOLDER AGAR LOADING CEPAT
-        const kpopImages = [
-            { src: 'https://placehold.co/180x250/f7668f/1f2937?text=K-POP', alt: 'TWICE' }, 
-            { src: 'https://placehold.co/180x250/f7668f/1f2937?text=AESPA', alt: 'AESPA' }, 
-            { src: 'https://placehold.co/180x250/f7668f/1f2937?text=LE_S', alt: 'LE SSERAFIM' }, 
-            { src: 'https://placehold.co/180x250/f7668f/1f2937?text=H2H', alt: 'Hearts2Hearts' }
-        ];
-        const motogpImages = [
-            { src: 'https://placehold.co/300x400/c084fc/1f2937?text=MM93', alt: 'Marc Marquez' }
-        ];
-        const footballImages = [
-            { src: 'https://placehold.co/300x400/f7668f/1f2937?text=RM', alt: 'Real Madrid' }
-        ];
-
-
-        // --- FIREBASE INSTANCES ---
-        let app, db, auth;
-        let userId = null;
-
-        // --- PATH FIREBASE ---
-        const PUBLIC_PATH = `artifacts/${appId}/public/data/profile_public/user_data`;
-        const getPrivatePath = (uid) => `artifacts/${appId}/users/${uid}/profile/user_data`;
-
-        // --- UTILITY FUNCTIONS ---
-        const getSpotifyTrackId = (url) => {
-            try {
-                if (!url) return '';
-                const urlObj = new URL(url);
-                const pathSegments = urlObj.pathname.split('/');
-                const trackIndex = pathSegments.indexOf('track');
-                if (trackIndex !== -1 && pathSegments.length > trackIndex + 1) {
-                    return pathSegments[trackIndex + 1].split('?')[0]; 
-                }
-                return '';
-            } catch (error) {
-                return '';
-            }
-        };
-
-        const getSpotifyEmbedUrl = (trackUrl) => {
-            const trackId = getSpotifyTrackId(trackUrl);
-            return trackId ? `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0` : '';
-        };
-
-        // --- INITIALIZATION ---
-        const initializeAppAndAuth = async () => {
-            if (!firebaseConfig) {
-                console.warn("Firebase config tidak ditemukan. Menggunakan data default.");
-                // Jika config tidak ada, langsung render dengan data default.
-                renderApp(defaultProfile);
-                return;
-            }
-
-            try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                if (initialAuthToken) {
-                    const userCredential = await signInWithCustomToken(auth, initialAuthToken);
-                    userId = userCredential.user.uid;
-                } else {
-                    const userCredential = await signInAnonymously(auth);
-                    userId = userCredential.user.uid;
-                }
-                console.log("Firebase Auth Success. User ID:", userId);
-                
-                listenToPublicProfile();
-
-            } catch (e) {
-                console.error("Firebase Initialization or Auth Error:", e);
-                userId = auth?.currentUser?.uid || crypto.randomUUID();
-                listenToPublicProfile();
-            }
+    <script>
+        // Fungsi untuk menampilkan modal kustom
+        window.showCustomAlert = (title, message) => {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-message').innerText = message;
+            document.getElementById('custom-alert-modal').classList.remove('hidden');
         };
         
-        // --- FIREBASE LISTEN (READ) ---
-        const listenToPublicProfile = () => {
-            if (!db) {
-                renderApp(defaultProfile, "Database tidak siap. Menampilkan data default.");
-                return;
-            }
-
-            const profileDocRef = doc(db, PUBLIC_PATH);
-            
-            onSnapshot(profileDocRef, (docSnap) => {
-                let profileData = defaultProfile;
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    profileData = {
-                        ...defaultProfile, 
-                        ...data,
-                        vibes: { ...defaultProfile.vibes, ...data.vibes }
-                    };
-                }
-                renderApp(profileData);
-            }, (e) => {
-                console.error("Firestore Listen Error:", e);
-                renderApp(defaultProfile, "Gagal memuat data live. Menampilkan data default.");
-            });
-        }
-
-        // --- FIREBASE WRITE (SAVE) ---
-        window.saveProfile = async (newProfile) => {
-            if (!db || !userId) {
-                console.error("Database atau User ID tidak siap.");
-                return;
-            }
-
-            const privateDocRef = doc(db, getPrivatePath(userId));
-            const publicDocRef = doc(db, PUBLIC_PATH);
-
-            try {
-                await Promise.all([
-                    setDoc(privateDocRef, newProfile, { merge: true }),
-                    setDoc(publicDocRef, newProfile, { merge: true })
-                ]);
-                console.log("Profile saved successfully to both private and public paths.");
-            } catch (e) {
-                console.error("Error saving profile:", e);
-            }
+        window.hideCustomAlert = () => {
+            document.getElementById('custom-alert-modal').classList.add('hidden');
         };
+    </script>
+</body>
+</html>
 
-        // --- UI RENDER FUNCTIONS ---
-        const renderVibeItem = (emoji, title, content, color, onClickFn) => `
-            <div 
-                onclick="${onClickFn}"
-                class="p-4 rounded-xl mb-3 border-l-4 border-${color} bg-gray-800/50 shadow-lg cursor-pointer transition transform hover:scale-[1.01] hover:bg-gray-700/50"
-            >
-                <div class="text-lg font-bold flex items-center text-${color}">
-                    <span class="text-2xl mr-3">${emoji}</span>
-                    ${title}
-                </div>
-                <p class="text-sm text-gray-300 mt-1 pl-8 overflow-hidden whitespace-nowrap overflow-x-auto vibe-scroll">${content}</p>
-            </div>
-        `;
-
-        const renderPrimaryButton = (text, onClickFn, colorClass, hoverClass, shadowClass) => `
-            <button
-                onclick="${onClickFn}"
-                class="w-full flex items-center justify-center p-4 rounded-
