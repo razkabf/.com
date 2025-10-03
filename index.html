@@ -1,345 +1,254 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Razka Bintang Firdaus | Vibe Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Razka Bintang Firdaus | Vibe Hub</title>
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Load Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Custom CSS for Marquee and Neon Glow (Hard to replicate purely in Tailwind) */
+    :root {
+      --neon-pink: #ff4dff;
+      --light-pink: #ffb3ff;
+      --dark-bg: #050510;
+      --mid-bg: #18182d;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      /* Using a CSS gradient for the body background */
+      background: linear-gradient(180deg, var(--dark-bg), var(--mid-bg), var(--dark-bg));
+    }
     
-    <!-- Tailwind CSS (for structure) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scrollText 16s linear infinite;
+    }
+
+    @keyframes scrollText {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+
+    /* Custom neon-title styles for the glow effect and responsive size */
+    .neon-title {
+      font-size: clamp(2.5rem, 10vw, 4.5rem); /* Adjusted for more impact on mobile */
+      line-height: 1;
+      color: var(--neon-pink);
+      text-shadow: 0 0 20px var(--neon-pink);
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px var(--neon-pink), 0 0 5px var(--neon-pink); }
+      to { text-shadow: 0 0 25px var(--neon-pink), 0 0 40px rgba(255, 77, 255, 0.7); }
+    }
     
-    <style>
-        /* BASE & THEME - KEMBALI KE DARK MODE */
-        :root {
-            --bg-dark: #000000; /* Hitam */
-            --text-light: #e5e7eb; /* Teks Utama Terang */
-            --primary-neon: #F7668F; /* Pink Neon */
-            --secondary-neon: #C084FC; /* Lilac Neon */
-            --card-bg: #111827; /* Latar Belakang Kartu Gelap */
-        }
+    .spotify-embed-container {
+        /* Custom shadow for the neon effect */
+        box-shadow: 0 0 25px rgba(255, 77, 255, 0.6);
+        transition: transform 0.3s;
+    }
+    .spotify-embed-container:hover { 
+        transform: scale(1.01); 
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark); 
-            color: var(--text-light); 
-            line-height: 1.6;
-            padding: 1rem; 
-            max-width: 32rem; 
-            margin: 0 auto; 
-            padding-bottom: 5rem; 
-            min-height: 100vh; 
-        }
-
-        /* NEON TEXT EFFECT FOR RBF - KEMBALI KE GLOW */
-        .neon-rbf {
-            font-size: 3.5rem; 
-            line-height: 1;
-            color: var(--primary-neon);
-            /* Glow asli */
-            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px rgba(247, 102, 143, 0.8);
-            margin-bottom: 0.5rem;
-            font-weight: 900;
-        }
-
-        /* CLOCK STYLE - KEMBALI KE GLOW */
-        .neon-clock-text {
-            font-weight: 700;
-            color: var(--secondary-neon);
-            /* Glow asli */
-            text-shadow: 0 0 8px rgba(192, 132, 252, 0.8);
-            transition: all 0.5s;
-        }
-
-        
-        /* GENERAL CARD STYLE WITH GLOW */
-        .glow-card {
-            background-color: var(--card-bg);
-            border-radius: 18px;
-            padding: 1.5rem;
-            margin-top: 1.5rem; /* DIKONTROL DENGAN MARGIN-TOP */
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s;
-        }
-
-        /* VIBE CHECK CARD (Lilac Glow) */
-        .vibe-card {
-            border: 2px solid var(--secondary-neon);
-            box-shadow: 0 0 25px var(--secondary-neon);
-        }
-        
-        /* SPOTIFY/LINK CARD (Pink Glow) */
-        .spotify-card, .link-card {
-            border: 2px solid var(--primary-neon);
-            box-shadow: 0 0 20px var(--primary-neon);
-        }
-
-        /* BUTTON STYLING (NEON LINK) */
-        .neon-link-btn {
-            background: linear-gradient(135deg, #111827, #1f2937); /* Latar belakang gelap untuk kontras */
-            color: var(--text-light);
-            font-weight: 700;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px var(--primary-neon);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--primary-neon);
-            box-shadow: 0 0 10px var(--primary-neon);
-        }
-        .neon-link-btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--secondary-neon);
-            box-shadow: 0 0 15px var(--secondary-neon);
-            text-shadow: 0 0 8px var(--secondary-neon);
-        }
-
-        /* BADGE STYLING */
-        .vibe-badge-genz {
-            padding: 0.5rem 1rem;
-            border-radius: 9999px; 
-            font-size: 0.9rem;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: all 0.3s;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-        }
-        .badge-pink { background: var(--primary-neon); color: var(--card-bg); } /* Teks Gelap di latar Pink */
-        .badge-lilac { background: var(--secondary-neon); color: var(--card-bg); } /* Teks Gelap di latar Lilac */
-        .vibe-badge-genz:hover { opacity: 0.9; transform: scale(1.05); }
-
-        /* MARQUEE STYLES - KEMBALI KE DARK MODE */
-        @keyframes marquee {
-            0%   { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .marquee-container {
-            overflow: hidden;
-            width: 100%;
-            height: 30px; 
-            background-color: #1a0a1f; /* Latar belakang gelap */
-            border-top: 1px solid #1f0f29;
-            border-bottom: 1px solid #1f0f29;
-            margin: 0; /* Pastikan margin nol agar menempel ke Clock */
-        }
-
-        .marquee-content {
-            display: inline-block;
-            white-space: nowrap;
-            padding-left: 100%; 
-            animation: marquee 15s linear infinite; 
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--secondary-neon);
-            line-height: 30px;
-            text-shadow: 0 0 5px rgba(192, 132, 252, 0.5);
-        }
-        
-        /* NEW SPOTIFY CONTAINER STYLE */
-        .spotify-container {
-            border-color: var(--primary-neon);
-            background-color: var(--secondary-neon); /* LILAC BACKGROUND */
-            box-shadow: 0 0 30px rgba(192, 132, 252, 0.5); /* Lilac Glow */
-        }
-
-    </style>
+    /* Modal Styling */
+    .message-box {
+        animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    @keyframes slideIn {
+        from { opacity: 0; transform: scale(0.8) translateY(-50px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+  </style>
 </head>
-<body class="bg-dark">
+<body class="min-h-screen text-white p-5">
 
-    <div id="app-container" class="p-4 w-full max-w-lg mx-auto pb-16 min-h-screen">
-        
-        <!-- HEADER: NEON RBF & BIO -->
-        <!-- pt-8 agar sedikit lebih rendah, mb-4 agar lebih dekat ke AI label -->
-        <div class="text-center pt-8 mb-4">
-            <h1 class="neon-rbf mx-auto">RBF</h1>
-            <p class="text-lg text-gray-400 font-medium italic -mt-2 mb-6"> 
-                Razka Bintang Firdaus | 05' | ENFP
-            </p>
-        </div>
+  <!-- Marquee Header -->
+  <div class="marquee-container fixed top-0 left-0 w-full z-10 bg-gray-900/90 text-light-pink text-base font-semibold border-b border-gray-700 py-2">
+    <span class="marquee-text">Halo, Aku Razka / 안녕하세요, 저는 라즈카입니다</span>
+  </div>
 
-        <!-- AI LABEL (Diapit di antara header dan marquee tanpa jarak) -->
-        <div class="text-center mb-2"> <!-- Jarak sedikit di bawah label AI -->
-            <span class="inline-block px-4 py-2 text-sm font-bold rounded-full bg-primary-neon text-black tracking-wider shadow-lg">
-                AI
-            </span>
-        </div>
+  <div class="max-w-md mx-auto pt-16 text-center">
+    <!-- Title Section - CENTERED -->
+    <h1 class="font-extrabold mb-4 neon-title">RBF</h1>
+    <p class="text-gray-400 text-sm mb-8">
+      Razka Bintang Firdaus | 05’ | ENFP | AI Enthusiast
+    </p>
 
-        <!-- REAL-TIME CLOCKS SECTION -->
-        <div id="real-time-clocks" class="text-center py-3 bg-gray-900/50 backdrop-blur-sm border-y border-gray-800/50"> <!-- py-3 lebih kecil -->
-            <div class="flex justify-around items-center text-sm font-light">
-                <!-- WIB Clock -->
-                <div class="px-2">
-                    <p class="text-gray-400">🇮🇩 WIB (UTC+7)</p>
-                    <span id="wib-time" class="text-xl neon-clock-text">--:--:--</span>
-                </div>
-                <!-- Separator -->
-                <div class="h-8 w-px bg-gray-700"></div>
-                <!-- KST Clock -->
-                <div class="px-2">
-                    <p class="text-gray-400">🇰🇷 KST (UTC+9)</p>
-                    <span id="kst-time" class="text-xl neon-clock-text">--:--:--</span>
-                </div>
-            </div>
-        </div>
-        <!-- END REAL-TIME CLOCKS -->
-        
-        <!-- TEKS BERJALAN / MARQUEE BARU -->
-        <div class="marquee-container mb-6"> <!-- Jarak di bawah marquee diatur di sini -->
-            <div class="marquee-content">
-                &nbsp;&nbsp;&nbsp;Halo, Aku Razka / 안녕하세요, 저는 라즈카입니다
-            </div>
-        </div>
-        <!-- END MARQUEE -->
-
-        <!-- SPOTIFY WIDGET (FULL EMBED) -->
-        <section class="mb-8"> <!-- Spasi di bawah Spotify konsisten mb-8 -->
-            <h2 class="text-xl font-bold mb-3 text-primary-neon text-center">
-                🎧 CURRENTLY LISTENING 🎧
-            </h2>
-            <div class="rounded-xl overflow-hidden shadow-2xl border-2 spotify-container">
-                <iframe 
-                    src="https://open.spotify.com/embed/track/54mnwt3kO0uYsy0ceg14JP?utm_source=generator&theme=1" 
-                    width="100%" 
-                    height="152" 
-                    frameborder="0" 
-                    allowfullscreen="" 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy"
-                    title="Spotify Embed Player"
-                ></iframe>
-            </div>
-        </section>
-
-        <!-- VIBE CHECK CARD -->
-        <section class="glow-card vibe-card mb-8">
-            <h2 class="text-2xl font-extrabold mb-5 text-secondary-neon flex items-center justify-center">
-                VIBE CHECK [LIVE] ⚡
-            </h2>
-            
-            <div class="flex flex-wrap gap-3 justify-center">
-                <!-- K-POP STAN - DESKRIPSI SUDAH DIUPDATE -->
-                <a href="#" onclick="showCustomAlert('K-Pop Vibe 💖', 'TWICE, aespa, Hearts2Hearts, LE SSERAFIM. The playlist is fully synchronized.')" class="vibe-badge-genz badge-pink">
-                    K-POP
-                </a>
-                
-                <!-- MOTOGP (MM93) -->
-                <a href="#" onclick="showCustomAlert('Rider Vibe 🏍️', 'Marc Marquez MM93 - More Than A Number. Speed and precision.')" class="vibe-badge-genz badge-lilac">
-                    MotoGP
-                </a>
-                
-                <!-- MADRID / INDO -->
-                <a href="#" onclick="showCustomAlert('Football Vibe 👑', '¡Hala Madrid! Hasta La Muerte!')" class="vibe-badge-genz badge-pink">
-                    Football Club
-                </a>
-            </div>
-            
-            <p class="text-sm text-gray-500 mt-5 text-center italic">
-                (Tap the #tags for details)
-            </p>
-        </section>
-
-        <!-- LINK BUTTONS (NEON STYLE) -->
-        <section class="space-y-4 mb-8">
-            <a href="https://www.instagram.com/razkabf" target="_blank" class="neon-link-btn w-full block text-center">
-                IG Utama <span class="text-primary-neon">@razkabf</span>
-            </a>
-            
-            <a href="https://www.instagram.com/byrazka.jpg" target="_blank" class="neon-link-btn w-full block text-center" style="border-color: var(--secondary-neon); box-shadow: 0 0 10px var(--secondary-neon); text-shadow: none;">
-                IG Kedua <span class="text-secondary-neon">@byrazka.jpg</span>
-            </a>
-
-            <!-- KOTAK TIKTOK -->
-            <a href="https://www.tiktok.com/@hiraiyizhuo?_t=ZS-90FKATD1CHH&_r=1" target="_blank" class="neon-link-btn w-full block text-center">
-                TikTok <span class="text-primary-neon">@hiraiyizhuo</span>
-            </a>
-
-            <a href="mailto:razkabintangfirdaus@gmail.com" target="_blank" class="neon-link-btn w-full block text-center" style="border-color: var(--secondary-neon); box-shadow: 0 0 10px var(--secondary-neon); text-shadow: none;">
-                Email <span class="text-secondary-neon">razkabintangfirdaus@gmail.com</span>
-            </a>
-        </section>
-        
-        <div class="text-center text-xs text-gray-700 pt-8">
-            generated by razka
-        </div>
-
+    <!-- Clock Section -->
+    <div class="flex justify-center gap-4 mb-8">
+      <div class="bg-white/10 rounded-xl p-3 shadow-lg backdrop-blur-sm min-w-[100px]">
+        <span class="text-sm text-gray-300 block mb-1">WIB 🇮🇩</span>
+        <span id="wib" class="text-xl font-bold text-light-pink">--:--:--</span>
+      </div>
+      <div class="bg-white/10 rounded-xl p-3 shadow-lg backdrop-blur-sm min-w-[100px]">
+        <span class="text-sm text-gray-300 block mb-1">KST 🇰🇷</span>
+        <span id="kst" class="text-xl font-bold text-light-pink">--:--:--</span>
+      </div>
     </div>
 
-    <!-- MODAL ALERT KUSTOM (Pengganti alert() - Aesthetic) -->
-    <div id="custom-alert-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4 backdrop-blur-sm" onclick="hideCustomAlert()">
-        <div class="bg-[#0a0f18] rounded-2xl shadow-2xl p-6 w-full max-w-sm border-2 border-secondary-neon/80 transform scale-100 transition duration-300" onclick="event.stopPropagation()">
-            <h2 id="alert-title" class="text-2xl font-bold text-secondary-neon mb-4 border-b border-gray-700 pb-2"></h2>
-            <p id="alert-message" class="text-gray-300 mb-6"></p>
-            <div class="flex justify-end">
-                <button
-                    onclick="hideCustomAlert()"
-                    class="px-5 py-2 rounded-lg font-semibold transition bg-primary-neon text-[#0a0f18] hover:bg-primary-neon/80 shadow-lg"
-                >
-                    GOT IT
-                </button>
-            </div>
-        </div>
+    <!-- Currently Listening Spotify Embed -->
+    <h2 class="mt-8 mb-4 text-lg font-semibold text-light-pink tracking-widest uppercase">🎧 Currently Listening</h2>
+    <div class="spotify-embed-container rounded-2xl overflow-hidden shadow-2xl">
+      <!-- Spotify embed (using original track ID) -->
+      <iframe src="https://open.spotify.com/embed/track/5Z2DNRAhs6r4VdINVkRhYY?utm_source=generator" height="90" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="w-full" loading="lazy"></iframe>
     </div>
 
-    <script>
-        // Fungsi untuk menampilkan modal kustom
-        window.showCustomAlert = (title, message) => {
-            document.getElementById('alert-title').innerText = title;
-            document.getElementById('alert-message').innerText = message;
-            document.getElementById('custom-alert-modal').classList.remove('hidden');
-        };
-        
-        window.hideCustomAlert = () => {
-            document.getElementById('custom-alert-modal').classList.add('hidden');
-        };
+    <!-- Top Playlist Spotify Embed -->
+    <h2 class="mt-8 mb-4 text-lg font-semibold text-light-pink tracking-widest uppercase">🔥 Top 5 Playlist</h2>
+    <div class="spotify-embed-container rounded-2xl overflow-hidden shadow-2xl">
+      <!-- Spotify embed (using original playlist ID) -->
+      <iframe src="https://open.spotify.com/embed/playlist/3Qm42mqQ68uaKZX6RO8M3Y?utm_source=generator" height="380" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="w-full" loading="lazy"></iframe>
+    </div>
 
-        // --- REAL-TIME CLOCK LOGIC (WIB & KST) ---
-        const wibTimeElement = document.getElementById('wib-time');
-        const kstTimeElement = document.getElementById('kst-time');
-        
-        // Options untuk format waktu
-        const timeOptions = { 
-            hour: '2-digit', 
-            minute: '2-digit', 
-            second: '2-digit',
-            hour12: false // Menggunakan format 24 jam
-        };
+    <!-- Vibe Check Buttons -->
+    <h2 class="mt-8 mb-4 text-lg font-semibold text-light-pink tracking-widest uppercase">⚡ Vibe Check</h2>
+    <div class="flex justify-center gap-2 mb-8 flex-wrap">
+      <button class="vibe-button bg-gray-800 border border-neon-pink text-white rounded-full px-5 py-2 font-semibold transition-all duration-300 hover:bg-gray-700 hover:border-white shadow-md shadow-pink-500/20">
+        🎵 K-Pop
+      </button>
+      <button class="vibe-button bg-gray-800 border border-neon-pink text-white rounded-full px-5 py-2 font-semibold transition-all duration-300 hover:bg-gray-700 hover:border-white shadow-md shadow-pink-500/20">
+        🏍️ MotoGP
+      </button>
+      <button class="vibe-button bg-gray-800 border border-neon-pink text-white rounded-full px-5 py-2 font-semibold transition-all duration-300 hover:bg-gray-700 hover:border-white shadow-md shadow-pink-500/20">
+        ⚽ Football Club
+      </button>
+    </div>
 
-        function updateClocks() {
-            const now = new Date();
+    <!-- Social Links -->
+    <div class="flex flex-col gap-3 mb-10">
+      <a href="https://instagram.com/razkabf" target="_blank" class="link-item bg-gray-900/80 rounded-2xl p-4 flex items-center justify-center gap-4 text-white font-semibold shadow-lg shadow-pink-500/30 transition-all duration-300 hover:bg-neon-pink hover:text-gray-900 hover:shadow-xl hover:shadow-pink-500/80">
+        <i class="fab fa-instagram text-xl"></i> IG Utama @razkabf
+      </a>
+      <a href="https://instagram.com/byrazka.jpg" target="_blank" class="link-item bg-gray-900/80 rounded-2xl p-4 flex items-center justify-center gap-4 text-white font-semibold shadow-lg shadow-pink-500/30 transition-all duration-300 hover:bg-neon-pink hover:text-gray-900 hover:shadow-xl hover:shadow-pink-500/80">
+        <i class="fab fa-instagram text-xl"></i> IG Kedua @byrazka.jpg
+      </a>
+      <a href="https://tiktok.com/@hiraiyizhuo" target="_blank" class="link-item bg-gray-900/80 rounded-2xl p-4 flex items-center justify-center gap-4 text-white font-semibold shadow-lg shadow-pink-500/30 transition-all duration-300 hover:bg-neon-pink hover:text-gray-900 hover:shadow-xl hover:shadow-pink-500/80">
+        <i class="fab fa-tiktok text-xl"></i> TikTok @hiraiyizhuo
+      </a>
+      <a href="mailto:razkabintangfirdaus@gmail.com" class="link-item bg-gray-900/80 rounded-2xl p-4 flex items-center justify-center gap-4 text-white font-semibold shadow-lg shadow-pink-500/30 transition-all duration-300 hover:bg-neon-pink hover:text-gray-900 hover:shadow-xl hover:shadow-pink-500/80">
+        <i class="fas fa-envelope text-xl"></i> Email
+      </a>
+    </div>
 
-            try {
-                // 1. WIB (Waktu Indonesia Barat: Asia/Jakarta) - UTC+7
-                const wibTime = now.toLocaleTimeString('id-ID', {
-                    ...timeOptions,
-                    timeZone: 'Asia/Jakarta'
-                });
-                wibTimeElement.textContent = wibTime;
+    <!-- Footer -->
+    <footer class="text-sm text-gray-500 mt-10 pb-5">generated by razka</footer>
+  </div>
 
-                // 2. KST (Korea Standar Time: Asia/Seoul) - UTC+9
-                const kstTime = now.toLocaleTimeString('ko-KR', { // Menggunakan locale Korea
-                    ...timeOptions,
-                    timeZone: 'Asia/Seoul'
-                });
-                kstTimeElement.textContent = kstTime;
+  <!-- Custom Message Box/Modal -->
+  <div id="messageBox" class="fixed inset-0 bg-black bg-opacity-85 hidden items-center justify-center z-50 backdrop-blur-md">
+    <div class="message-box bg-mid-bg border-2 border-neon-pink rounded-3xl p-8 m-5 max-w-sm text-center shadow-2xl shadow-pink-500/70">
+        <div id="messageText" class="text-base text-gray-200"></div>
+        <button id="closeMessage" class="mt-6 bg-neon-pink text-gray-900 font-extrabold rounded-xl px-6 py-2 cursor-pointer transition-all duration-200 hover:bg-white hover:translate-y-[-2px] shadow-lg shadow-pink-500/40">
+            Got it!
+        </button>
+    </div>
+  </div>
 
-            } catch (error) {
-                // Fallback sederhana jika browser tidak mendukung Intl.DateTimeFormat
-                console.error("Error updating clocks:", error);
-                wibTimeElement.textContent = 'ERROR';
-                kstTimeElement.textContent = 'ERROR';
-            }
+  <script>
+    // Set up Tailwind configuration for custom colors to be used in JS
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-pink': '#ff4dff',
+            'light-pink': '#ffb3ff',
+            'mid-bg': '#18182d',
+          }
         }
+      }
+    }
 
-        // Jalankan fungsi saat startup dan setiap detik (1000ms)
-        updateClocks();
-        setInterval(updateClocks, 1000);
-    </script>
+    // --- Clock Functionality ---
+    function updateClock() {
+      const now = new Date();
+      const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      
+      try {
+          options.timeZone = 'Asia/Jakarta';
+          document.getElementById('wib').textContent = now.toLocaleTimeString('id-ID', options);
+          options.timeZone = 'Asia/Seoul';
+          document.getElementById('kst').textContent = now.toLocaleTimeString('ko-KR', options);
+      } catch (error) {
+          console.error("Timezone error, falling back to local time:", error);
+          // Fallback if environment doesn't support timeZone
+          options.timeZone = undefined;
+          document.getElementById('wib').textContent = now.toLocaleTimeString('id-ID', options);
+          document.getElementById('kst').textContent = now.toLocaleTimeString('ko-KR', options);
+      }
+    }
+    
+    // Update every second
+    setInterval(updateClock, 1000);
+    // Initial call
+    updateClock();
+
+    // --- Vibe Check Functionality ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const vibeButtons = document.querySelectorAll('.vibe-button');
+      const messageBox = document.getElementById('messageBox');
+      const messageText = document.getElementById('messageText');
+      const closeMessageButton = document.getElementById('closeMessage');
+
+      const activeClass = 'bg-neon-pink text-gray-900 border-white shadow-lg shadow-pink-500/80 scale-105';
+
+      const vibeContent = {
+        '🎵 K-Pop': [
+          { name: 'TWICE', link: 'https://instagram.com/twicetagram' },
+          { name: 'aespa', link: 'https://instagram.com/aespa_official' },
+          { name: 'Hearts2Hearts', link: 'https://instagram.com/hearts2hearts' },
+          { name: 'LE SSERAFIM', link: 'https://instagram.com/le_sserafim' },
+        ],
+        '🏍️ MotoGP': [
+          { name: 'Marc Marquez 93', link: 'https://instagram.com/marcmarquez93' },
+        ],
+        '⚽ Football Club': [
+          { name: '¡Hala Madrid! (Real Madrid)', link: 'https://instagram.com/realmadrid' },
+        ]
+      };
+
+      function showMessage(title, contentArray) {
+        let html = `<strong class="text-xl text-light-pink mb-4 block">${title} Vibe 💜</strong>`;
+        contentArray.forEach(item => {
+          // Use Tailwind classes for links inside the modal
+          html += `<a href="${item.link}" target="_blank" class="block my-2 p-2 rounded-lg bg-white/5 text-light-pink font-medium hover:bg-white/10 transition-colors duration-200">${item.name}</a>`;
+        });
+        messageText.innerHTML = html;
+        messageBox.style.display = 'flex';
+      }
+
+      closeMessageButton.addEventListener('click', () => {
+        messageBox.style.display = 'none';
+      });
+
+      vibeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all and add to the clicked one
+          vibeButtons.forEach(b => b.classList.remove(...activeClass.split(' ')));
+          this.classList.add(...activeClass.split(' '));
+          
+          const title = this.textContent.trim();
+          const content = vibeContent[title] || [];
+          showMessage(title, content);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
 
